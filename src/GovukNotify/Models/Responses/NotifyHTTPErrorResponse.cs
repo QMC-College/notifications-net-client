@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Notify.Models.Responses
 {
@@ -12,14 +13,23 @@ namespace Notify.Models.Responses
         [JsonProperty("errors")]
         private List<NotifyHTTPError> errors;
 
-        public string getStatusCode()
-        {
-            return statusCode;
-        }
+        [JsonProperty("exception")]
+        private string exception;
 
-        public string getErrorsAsJson()
+        public string getStatusCode() => statusCode;
+
+        public string getException()
+            => exception;
+
+        public string getErrorsAsJson(Formatting format = Formatting.Indented)
+            => JsonConvert.SerializeObject(errors, format);
+
+        public override string ToString()
         {
-            return JsonConvert.SerializeObject(errors, Formatting.Indented);
+            if(errors.Count > 0)
+                return string.Join(", ", errors.Select(e => e.message));
+            else
+                return $"Error Status: {statusCode}";
         }
     }
 }

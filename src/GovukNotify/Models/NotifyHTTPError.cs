@@ -6,9 +6,9 @@ namespace Notify.Models
     {
         #pragma warning disable 169
         [JsonProperty("error")]
-        private string error;
+        public string error;
 
         [JsonProperty("message")]
-        private string message;
+        public string message;
     }
 }
